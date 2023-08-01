@@ -1,0 +1,32 @@
+
+server:
+  port: 8089
+
+spring:
+  application:
+    name: APARTMENT-SERVICE
+
+  datasource:
+    username: postgres
+    password: 1402
+    url: jdbc:postgresql://localhost:5433/apartment_service
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+eureka:
+  client:
+    service-url:
+      defaultUrl: ${EUREKA.URI:http://localhost:8761/eureka/}
+    instance:
+      preferIpAddress: true
+
+services:
+  notification-url: http://NOTIFICATION-SERVICE/notification
+  user-service-url: http://USER-SERVICE/user
+  payment-service-url: http://PAYMENT-SERVICE/payment
+
