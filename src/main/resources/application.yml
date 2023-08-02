@@ -1,6 +1,6 @@
 
 server:
-  port: 8089
+  port: 8090
 
 spring:
   application:
@@ -26,7 +26,16 @@ eureka:
       preferIpAddress: true
 
 services:
-  notification-url: http://NOTIFICATION-SERVICE/notification
-  user-service-url: http://USER-SERVICE/user
-  payment-service-url: http://PAYMENT-SERVICE/payment
+  notification-url: http://NOTIFICATION-SERVICE/notification/
+  user-service-url: http://USER-SERVICE/user/
+  payment-service-url: http://PAYMENT-SERVICE/payment/
+
+
+jwt:
+  secret:
+    key:  753778214125442A472D4B6150645367566B59703373367639792F423F452848
+  access:
+    expiry: 3000000
+  refresh:
+    expiry: 3000000
 

@@ -29,8 +29,9 @@ public class FlatEntity extends BaseEntity {
     private FlatType type;
     @OneToMany
     private List<RoomEntity> rooms;
-    private UUID userId;
+    private UUID ownerId;
     @ManyToOne(cascade = CascadeType.PERSIST)
     private FlatStatus status;
     private String about;
+    private Double price;
 }
