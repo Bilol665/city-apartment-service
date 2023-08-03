@@ -10,6 +10,7 @@ import uz.pdp.cityapartmentservice.domain.entity.house.FlatEntity;
 import uz.pdp.cityapartmentservice.domain.entity.house.FlatType;
 import uz.pdp.cityapartmentservice.domain.entity.room.RoomEntity;
 import uz.pdp.cityapartmentservice.domain.entity.room.RoomType;
+import uz.pdp.cityapartmentservice.exceptions.DataNotFound;
 import uz.pdp.cityapartmentservice.repository.accomodation.AccommodationRepository;
 import uz.pdp.cityapartmentservice.repository.company.CompanyRepository;
 import uz.pdp.cityapartmentservice.repository.flat.FlatRepository;
@@ -29,6 +30,9 @@ public class AccommodationService {
 
     public AccommodationEntity savePremiumAccommodation(AccommodationCreateDto accommodationCreateDto) {
         AccommodationEntity accommodation = modelMapper.map(accommodationCreateDto, AccommodationEntity.class);
+
+        CompanyEntity companyEntity = companyRepository.findById(accommodationCreateDto.getCompanyId())
+                .orElseThrow(() -> new DataNotFound("Company Not Found!"));
 
         List<FlatEntity> flats = new ArrayList<>();
         int number = 1;
@@ -80,12 +84,12 @@ public class AccommodationService {
             }
             floor++;
         }
-        //CompanyEntity referenceById = companyRepository.getReferenceById(accommodationCreateDto.getCompanyId());
+
         accommodation.setFlats(flats);
         accommodation.setFloors(4);
-        //accommodation.setCompany(referenceById);
+        accommodation.setCompany(companyEntity);
         accommodation.setNumberOfFlats(8);
-//        accommodation.setLocation(accommodationCreateDto.getLocation());
+        accommodation.setLocationEntity(accommodationCreateDto.getLocationEntity());
         accommodation.setName(accommodationCreateDto.getName());
 
         return accommodationRepository.save(accommodation);
