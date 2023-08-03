@@ -23,6 +23,6 @@ public class TestController {
             @Valid @RequestBody AccommodationCreateDto accommodationCreateDto,
             BindingResult bindingResult
     ) {
-        return ResponseEntity.ok(accommodationService.save(accommodationCreateDto));
+        return ResponseEntity.ok(accommodationService.savePremiumAccommodation(accommodationCreateDto));
     }
 }

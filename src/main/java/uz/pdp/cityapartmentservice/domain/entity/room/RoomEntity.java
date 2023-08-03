@@ -14,7 +14,6 @@ import uz.pdp.cityapartmentservice.domain.entity.BaseEntity;
 @Getter
 @Builder
 public class RoomEntity extends BaseEntity {
-    private Integer size;
-    @ManyToOne(cascade = CascadeType.ALL)
+    private String about;
     private RoomType type;
 }

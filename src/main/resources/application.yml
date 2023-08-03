@@ -8,8 +8,8 @@ spring:
 
   datasource:
     username: postgres
-    password: 1402
-    url: jdbc:postgresql://localhost:5433/apartment_service
+    password: 1234
+    url: jdbc:postgresql://localhost:5432/apartment_service_db
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -29,6 +29,7 @@ services:
   notification-url: http://NOTIFICATION-SERVICE/notification/
   user-service-url: http://USER-SERVICE/user/
   payment-service-url: http://PAYMENT-SERVICE/payment/
+  booking-service-url: http://BOOKING-SERVICE/booking/
 
 
 jwt:

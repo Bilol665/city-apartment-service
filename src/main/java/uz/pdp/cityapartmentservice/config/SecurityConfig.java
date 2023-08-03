@@ -31,7 +31,7 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/apartment/**").hasRole("SUPER_ADMIN")
+                .requestMatchers("/apartment/**").permitAll()
                 .and()
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtFilterToken(jwtService,authenticationService),

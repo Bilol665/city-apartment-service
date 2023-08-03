@@ -24,9 +24,8 @@ public class AccommodationEntity extends BaseEntity {
     private Location location;
     private Integer numberOfFlats;
     private Integer floors;
-    private Integer numberOfEntrances;
     @ManyToOne
     private CompanyEntity company;
     @OneToMany
-    private List<FlatEntity> rooms;
+    private List<FlatEntity> flats;
 }
