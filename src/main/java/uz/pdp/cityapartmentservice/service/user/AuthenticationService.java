@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class AuthenticationService {
     public void Authenticate(Claims claims, HttpServletRequest request)throws JsonProcessingException {
         List<String> roles= (List<String>) claims.get("roles");

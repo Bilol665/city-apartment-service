@@ -1,5 +1,13 @@
 package uz.pdp.cityapartmentservice.domain.dto;
 
-public class RoomCreateDto {
+import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@Builder
+public class RoomCreateDto {
+    private String about;
+    private String type;
 }
