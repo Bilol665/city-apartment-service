@@ -1,8 +1,7 @@
 package uz.pdp.cityapartmentservice.domain.entity.company;
 
-import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,10 +17,9 @@ import java.util.UUID;
 @Getter
 
 public class CompanyEntity extends BaseEntity {
+    @Column(unique = true)
     private String name;
     private String description;
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    private CompanyType type;
     private Double balance;
     private UUID ownerId;
 }

@@ -10,7 +10,7 @@ import uz.pdp.cityapartmentservice.domain.entity.BaseEntity;
 @Setter
 @Getter
 @Builder
-public class Location extends BaseEntity {
-    private Integer longitude;
-    private Integer latitude;
+public class LocationEntity extends BaseEntity {
+    private Double longitude;
+    private Double latitude;
 }
