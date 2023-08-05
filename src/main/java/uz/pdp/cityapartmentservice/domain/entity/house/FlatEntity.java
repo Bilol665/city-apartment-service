@@ -1,14 +1,11 @@
 package uz.pdp.cityapartmentservice.domain.entity.house;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.*;
 import uz.pdp.cityapartmentservice.domain.entity.BaseEntity;
-import uz.pdp.cityapartmentservice.domain.entity.room.RoomEntity;
+import uz.pdp.cityapartmentservice.domain.entity.company.CompanyEntity;
 
-import java.util.List;
 import java.util.UUID;
 
 
@@ -22,11 +19,12 @@ public class FlatEntity extends BaseEntity {
     private Integer number;
     private Integer whichFloor;
     private FlatType flatType;
-    @OneToMany
-    private List<RoomEntity> rooms;
+    private Integer rooms;
     private UUID ownerId;
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
+    private CompanyEntity company;
     private FlatStatus status;
     private String about;
-    private Double price;
+    private Double pricePerMonth;
+    private Double FullPrice;
 }
