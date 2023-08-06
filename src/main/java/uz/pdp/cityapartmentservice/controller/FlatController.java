@@ -9,20 +9,21 @@ import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.cityapartmentservice.domain.entity.house.FlatEntity;
 import uz.pdp.cityapartmentservice.service.flat.FlatService;
 
+import java.security.Principal;
 import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/accommodation/api/v1/flat")
+@RequestMapping("/apartment/api/v1/flat")
 public class FlatController {
     private final FlatService flatService;
 
     @PutMapping ("/update/setOwner")
     public ResponseEntity<FlatEntity> setOwner(
-            @RequestParam UUID ownerId,
+            Principal principal,
             @RequestParam UUID flatId
     ){
-        return ResponseEntity.ok(flatService.setOwner(ownerId,flatId));
+        return ResponseEntity.ok(flatService.setOwner(principal,flatId));
     }
 
     @PutMapping("/update/removeOwner")
