@@ -43,4 +43,9 @@ public class FlatService  {
                 .orElseThrow(()-> new DataNotFound("Accommodation Not Found"))
                 .getFlats();
     }
+
+    public FlatEntity getFlat(UUID id) {
+        return flatRepository.findById(id)
+                .orElseThrow(()-> new DataNotFound("Flat Not Found!"));
+    }
 }
