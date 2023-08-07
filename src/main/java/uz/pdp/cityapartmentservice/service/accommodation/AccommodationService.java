@@ -6,16 +6,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import uz.pdp.cityapartmentservice.domain.dto.AccommodationCreateDto;
+import uz.pdp.cityapartmentservice.domain.dto.UserReadDto;
 import uz.pdp.cityapartmentservice.domain.entity.company.CompanyEntity;
 import uz.pdp.cityapartmentservice.domain.entity.house.AccommodationEntity;
 import uz.pdp.cityapartmentservice.domain.entity.house.FlatEntity;
+import uz.pdp.cityapartmentservice.domain.entity.house.FlatStatus;
 import uz.pdp.cityapartmentservice.domain.entity.house.FlatType;
 import uz.pdp.cityapartmentservice.exceptions.DataNotFound;
 import uz.pdp.cityapartmentservice.exceptions.RequestValidationException;
 import uz.pdp.cityapartmentservice.repository.accomodation.AccommodationRepository;
 import uz.pdp.cityapartmentservice.repository.company.CompanyRepository;
 import uz.pdp.cityapartmentservice.repository.flat.FlatRepository;
+import uz.pdp.cityapartmentservice.service.user.AuthService;
 
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,15 +31,18 @@ public class AccommodationService {
     private final CompanyRepository companyRepository;
     private final FlatRepository flatRepository;
     private final ModelMapper modelMapper;
+    private final AuthService authService;
 
-    public AccommodationEntity savePremiumAccommodation(AccommodationCreateDto accommodationCreateDto, BindingResult bindingResult) {
+    public AccommodationEntity savePremiumAccommodation(AccommodationCreateDto accommodationCreateDto, Principal principal, BindingResult bindingResult) {
         if (bindingResult.hasErrors()){
             List<ObjectError> allErrors = bindingResult.getAllErrors();
             throw new RequestValidationException(allErrors);
         }
+
+        UserReadDto user = authService.getUser(principal.getName());
         AccommodationEntity accommodation = modelMapper.map(accommodationCreateDto, AccommodationEntity.class);
 
-        CompanyEntity companyEntity = companyRepository.findById(accommodationCreateDto.getCompanyId())
+        CompanyEntity companyEntity = companyRepository.findByOwnerId(user.getId())
                 .orElseThrow(() -> new DataNotFound("Company Not Found!"));
 
         List<FlatEntity> flats = new ArrayList<>();
@@ -53,6 +60,7 @@ public class AccommodationService {
                         .flatType(FlatType.PREMIUM)
                         .ownerId(companyEntity.getId())
                         .company(companyEntity)
+                        .status(FlatStatus.AVAILABLE)
                         .build();
                 flatRepository.save(premiumFlat);
                 flats.add(premiumFlat);
@@ -70,13 +78,15 @@ public class AccommodationService {
 
     }
 
-    public AccommodationEntity saveEconomyAccommodation(AccommodationCreateDto accommodationCreateDto,BindingResult bindingResult){
+    public AccommodationEntity saveEconomyAccommodation(AccommodationCreateDto accommodationCreateDto,Principal principal,BindingResult bindingResult){
         if (bindingResult.hasErrors()){
             throw new RequestValidationException(bindingResult.getAllErrors());
         }
+
+        UserReadDto user = authService.getUser(principal.getName());
         AccommodationEntity accommodation = modelMapper.map(accommodationCreateDto, AccommodationEntity.class);
 
-        CompanyEntity companyEntity = companyRepository.findByName(accommodationCreateDto.getName())
+        CompanyEntity companyEntity = companyRepository.findByOwnerId(user.getId())
                 .orElseThrow(() -> new DataNotFound("Company Not Found!"));
         
         List<FlatEntity> flats = new ArrayList<>();
@@ -94,6 +104,7 @@ public class AccommodationService {
                         .flatType(FlatType.ECONOMY)
                         .ownerId(companyEntity.getId())
                         .company(companyEntity)
+                        .status(FlatStatus.AVAILABLE)
                         .build();
                 flatRepository.save(premiumFlat);
                 flats.add(premiumFlat);

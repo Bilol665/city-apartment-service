@@ -1,9 +1,6 @@
 package uz.pdp.cityapartmentservice.domain.entity.house;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import uz.pdp.cityapartmentservice.domain.dto.LocationEntity;
 import uz.pdp.cityapartmentservice.domain.entity.BaseEntity;
@@ -19,7 +16,7 @@ import java.util.List;
 @Builder
 public class AccommodationEntity extends BaseEntity {
     private String name;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private LocationEntity locationEntity;
     private Integer numberOfFlats;
     private Integer floors;

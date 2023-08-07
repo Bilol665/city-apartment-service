@@ -2,14 +2,13 @@ package uz.pdp.cityapartmentservice.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import uz.pdp.cityapartmentservice.domain.entity.house.FlatEntity;
 import uz.pdp.cityapartmentservice.service.flat.FlatService;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -18,6 +17,7 @@ import java.util.UUID;
 public class FlatController {
     private final FlatService flatService;
 
+    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
     @PutMapping ("/update/setOwner")
     public ResponseEntity<FlatEntity> setOwner(
             Principal principal,
@@ -31,5 +31,13 @@ public class FlatController {
             @RequestParam UUID flatId
     ){
         return ResponseEntity.ok(flatService.removeOwner(flatId));
+    }
+
+    @PreAuthorize("permitAll()")
+    @GetMapping("/get/by/accommodation/{id}")
+    public ResponseEntity<List<FlatEntity>> getByAccommodationId(
+            @PathVariable UUID id
+    ){
+        return ResponseEntity.ok(flatService.getAll(id));
     }
 }

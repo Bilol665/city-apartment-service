@@ -4,12 +4,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.cityapartmentservice.domain.dto.AccommodationCreateDto;
 import uz.pdp.cityapartmentservice.domain.entity.house.AccommodationEntity;
 import uz.pdp.cityapartmentservice.service.accommodation.AccommodationService;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,20 +21,25 @@ import java.util.UUID;
 public class AccommodationController {
 
     private final AccommodationService accommodationService;
+
+    @PreAuthorize("hasAnyRole('COMPANY_ADMIN','SUPER_ADMIN')")
     @PostMapping("/add/premium")
     public ResponseEntity<AccommodationEntity> savePremium(
             @Valid @RequestBody AccommodationCreateDto accommodationCreateDto,
+            Principal principal,
             BindingResult bindingResult
     ) {
-        return ResponseEntity.ok(accommodationService.savePremiumAccommodation(accommodationCreateDto,bindingResult));
+        return ResponseEntity.ok(accommodationService.savePremiumAccommodation(accommodationCreateDto,principal,bindingResult));
     }
 
+    @PreAuthorize("hasAnyRole('COMPANY_ADMIN','ROLE_SUPER_ADMIN')")
     @PostMapping("/add/economy")
     public ResponseEntity<AccommodationEntity> saveEconomy(
+            Principal principal,
             @Valid @RequestBody AccommodationCreateDto accommodationCreateDto,
             BindingResult bindingResult
     ){
-        return ResponseEntity.ok(accommodationService.saveEconomyAccommodation(accommodationCreateDto,bindingResult));
+        return ResponseEntity.ok(accommodationService.saveEconomyAccommodation(accommodationCreateDto,principal, bindingResult));
     }
 
     @GetMapping("/get/byId")
