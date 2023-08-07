@@ -34,10 +34,17 @@ public class FlatController {
     }
 
     @PreAuthorize("permitAll()")
-    @GetMapping("/get/by/accommodation/{id}")
+    @GetMapping("/get/accommodation/{id}")
     public ResponseEntity<List<FlatEntity>> getByAccommodationId(
             @PathVariable UUID id
     ){
         return ResponseEntity.ok(flatService.getAll(id));
+    }
+
+    @GetMapping("/get/flat/{id}")
+    public ResponseEntity<FlatEntity> getFlat(
+            @PathVariable UUID id
+    ){
+        return ResponseEntity.ok(flatService.getFlat(id));
     }
 }
