@@ -38,16 +38,10 @@ public class AuthService implements UserDetailsService {
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
-        // Use RestTemplate.exchange() with the modified URL
         return restTemplate.exchange(
                 builder.toUriString(),
                 HttpMethod.GET,
                 entity,
                 UserReadDto.class).getBody();
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-//        HttpEntity<String> entity = new HttpEntity<>(username,httpHeaders);
-//        return restTemplate.exchange((userURL + "/api/v1/auth/get/user"), HttpMethod.GET,entity, UserReadDto.class).getBody();
-
     }
 }

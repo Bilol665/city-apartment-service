@@ -11,4 +11,5 @@ import java.util.UUID;
 @Repository
 public interface CompanyRepository extends JpaRepository<CompanyEntity, UUID> {
     Optional<CompanyEntity> findByName (String name);
+    Optional<CompanyEntity> findByOwnerId (UUID ownerId);
 }

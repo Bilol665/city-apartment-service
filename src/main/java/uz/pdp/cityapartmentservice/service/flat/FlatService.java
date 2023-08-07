@@ -6,15 +6,18 @@ import uz.pdp.cityapartmentservice.domain.dto.UserReadDto;
 import uz.pdp.cityapartmentservice.domain.entity.house.FlatEntity;
 import uz.pdp.cityapartmentservice.domain.entity.house.FlatStatus;
 import uz.pdp.cityapartmentservice.exceptions.DataNotFound;
+import uz.pdp.cityapartmentservice.repository.accomodation.AccommodationRepository;
 import uz.pdp.cityapartmentservice.repository.flat.FlatRepository;
 import uz.pdp.cityapartmentservice.service.user.AuthService;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class FlatService  {
+    private final AccommodationRepository accommodationRepository;
     private final FlatRepository flatRepository;
     private final AuthService authService;
 
@@ -33,5 +36,11 @@ public class FlatService  {
         flat.setOwnerId(flat.getCompany().getId());
         flat.setStatus(FlatStatus.AVAILABLE);
         return flatRepository.save(flat);
+    }
+
+    public List<FlatEntity> getAll(UUID id) {
+        return accommodationRepository.findById(id)
+                .orElseThrow(()-> new DataNotFound("Accommodation Not Found"))
+                .getFlats();
     }
 }
