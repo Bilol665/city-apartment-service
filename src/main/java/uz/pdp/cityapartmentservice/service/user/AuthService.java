@@ -15,8 +15,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import uz.pdp.cityapartmentservice.domain.dto.UserDto;
 import uz.pdp.cityapartmentservice.domain.dto.UserReadDto;
 
-import java.net.URI;
-
 @Service
 @RequiredArgsConstructor
 public class AuthService implements UserDetailsService {
@@ -25,10 +23,12 @@ public class AuthService implements UserDetailsService {
     private String userURL;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(userURL + "/api/v1/auth/get")
+                .queryParam("username",username);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> entity = new HttpEntity<>(username,httpHeaders);
-        return restTemplate.exchange(URI.create(userURL + "/api/v1/auth/get"), HttpMethod.GET,entity, UserDto.class).getBody();
+        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
+        return restTemplate.exchange(builder.toUriString(), HttpMethod.GET,entity, UserDto.class).getBody();
     }
 
     public UserReadDto getUser(String username){

@@ -41,7 +41,7 @@ public class FlatController {
         return ResponseEntity.ok(flatService.getAll(id));
     }
 
-    @GetMapping("/get/flat/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<FlatEntity> getFlat(
             @PathVariable UUID id
     ){
