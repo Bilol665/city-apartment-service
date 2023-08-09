@@ -5,15 +5,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uz.pdp.cityapartmentservice.domain.dto.CompanyCreateDto;
 import uz.pdp.cityapartmentservice.domain.entity.company.CompanyEntity;
 import uz.pdp.cityapartmentservice.service.company.CompanyService;
 
 import java.security.Principal;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,5 +28,11 @@ public class CompanyController {
             BindingResult bindingResult
     ){
         return ResponseEntity.ok(companyService.save(principal,companyCreateDto,bindingResult));
+    }
+    @GetMapping("/get/{id}")
+    public ResponseEntity<CompanyEntity> get(
+            @PathVariable UUID id
+    ) {
+        return ResponseEntity.ok(companyService.get(id));
     }
 }

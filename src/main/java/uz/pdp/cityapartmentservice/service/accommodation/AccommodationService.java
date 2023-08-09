@@ -58,7 +58,7 @@ public class AccommodationService {
                         .FullPrice(100000.0)
                         .whichFloor(floor)
                         .flatType(FlatType.PREMIUM)
-                        .ownerId(companyEntity.getId())
+                        .ownerId(companyEntity.getOwnerId())
                         .company(companyEntity)
                         .status(FlatStatus.AVAILABLE)
                         .build();
