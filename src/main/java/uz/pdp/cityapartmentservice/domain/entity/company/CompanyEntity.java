@@ -20,6 +20,5 @@ public class CompanyEntity extends BaseEntity {
     @Column(unique = true)
     private String name;
     private String description;
-    private Double balance;
     private UUID ownerId;
 }

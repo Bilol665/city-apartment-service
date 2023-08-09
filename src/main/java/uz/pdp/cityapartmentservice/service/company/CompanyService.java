@@ -14,6 +14,7 @@ import uz.pdp.cityapartmentservice.repository.company.CompanyRepository;
 import uz.pdp.cityapartmentservice.service.user.AuthService;
 
 import java.security.Principal;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -36,5 +37,9 @@ public class CompanyService {
     public CompanyEntity getByName(String name) {
         return companyRepository.findByName(name)
                 .orElseThrow(() -> new DataNotFound("Company Not Found"));
+    }
+
+    public CompanyEntity get(UUID id) {
+        return companyRepository.findById(id).orElseThrow(() -> new DataNotFound("Company not found!"));
     }
 }
