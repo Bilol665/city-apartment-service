@@ -20,7 +20,9 @@ public class FlatEntity extends BaseEntity {
     private Integer whichFloor;
     private FlatType flatType;
     private Integer rooms;
+    private UUID newOwnerId;
     private UUID ownerId;
+    private UUID cardId;
     @ManyToOne
     private CompanyEntity company;
     private FlatStatus status;
