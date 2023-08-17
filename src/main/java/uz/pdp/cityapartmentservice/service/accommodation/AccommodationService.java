@@ -39,7 +39,7 @@ public class AccommodationService {
             throw new RequestValidationException(allErrors);
         }
 
-        UserReadDto user = authService.getUser(principal.getName());
+        UserReadDto user = authService.getUser(principal.getName(),principal);
         AccommodationEntity accommodation = modelMapper.map(accommodationCreateDto, AccommodationEntity.class);
 
         CompanyEntity companyEntity = companyRepository.findByOwnerId(user.getId())
@@ -83,7 +83,7 @@ public class AccommodationService {
             throw new RequestValidationException(bindingResult.getAllErrors());
         }
 
-        UserReadDto user = authService.getUser(principal.getName());
+        UserReadDto user = authService.getUser(principal.getName(),principal);
         AccommodationEntity accommodation = modelMapper.map(accommodationCreateDto, AccommodationEntity.class);
 
         CompanyEntity companyEntity = companyRepository.findByOwnerId(user.getId())

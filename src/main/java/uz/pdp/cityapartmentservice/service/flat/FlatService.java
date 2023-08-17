@@ -24,7 +24,7 @@ public class FlatService  {
     public FlatEntity setOwner(Principal principal, UUID flatId){
         FlatEntity flat = flatRepository.findById(flatId)
                 .orElseThrow(() -> new DataNotFound("Flat Not Found"));
-        UserReadDto user = authService.getUser(principal.getName());
+        UserReadDto user = authService.getUser(principal.getName(),principal);
         flat.setOwnerId(user.getId());
         flat.setStatus(FlatStatus.BUSY);
         return flatRepository.save(flat);

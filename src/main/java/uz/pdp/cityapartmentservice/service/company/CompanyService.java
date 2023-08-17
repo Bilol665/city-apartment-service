@@ -27,7 +27,7 @@ public class CompanyService {
         if (bindingResult.hasErrors()){
             throw new RequestValidationException(bindingResult.getAllErrors());
         }
-        UserReadDto user = authService.getUser(principal.getName());
+        UserReadDto user = authService.getUser(principal.getName(),principal);
         CompanyEntity companyEntity = modelMapper.map(companyCreateDto, CompanyEntity.class);
 
         companyEntity.setOwnerId(user.getId());

@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.springframework.web.filter.OncePerRequestFilter;
 import uz.pdp.cityapartmentservice.domain.entity.token.JwtTokenEntity;
 import uz.pdp.cityapartmentservice.exceptions.NotAcceptable;
@@ -39,7 +38,7 @@ public class JwtFilterToken extends OncePerRequestFilter {
         token = token.substring(7);
         Jws<Claims> claimsJws = jwtService.extractToken(token);
         Date expiration = claimsJws.getBody().getExpiration();
-        if(new Date().before(expiration)) throw new NotAcceptable("Expired Access token!");
+        if(new Date().after(expiration)) throw new NotAcceptable("Expired Access token!");
         authenticationService.Authenticate(claimsJws.getBody(),request);
         jwtTokenRepository.save(JwtTokenEntity.builder().token(token).username(claimsJws.getBody().getSubject()).build());
 
