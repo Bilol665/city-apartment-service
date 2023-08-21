@@ -14,6 +14,7 @@ import uz.pdp.cityapartmentservice.repository.company.CompanyRepository;
 import uz.pdp.cityapartmentservice.service.user.AuthService;
 
 import java.security.Principal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -34,12 +35,12 @@ public class CompanyService {
         return companyRepository.save(companyEntity);
     }
 
-    public CompanyEntity getByName(String name) {
-        return companyRepository.findByName(name)
-                .orElseThrow(() -> new DataNotFound("Company Not Found"));
-    }
 
     public CompanyEntity get(UUID id) {
         return companyRepository.findById(id).orElseThrow(() -> new DataNotFound("Company not found!"));
+    }
+
+    public List<CompanyEntity> getList(UUID id) {
+        return companyRepository.findCompanyEntitiesByOwnerId(id);
     }
 }

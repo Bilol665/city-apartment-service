@@ -17,7 +17,7 @@ import java.util.UUID;
 public class FlatController {
     private final FlatService flatService;
 
-    @PreAuthorize("hasRole('ROLE_SUPER_ADMIN')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     @PutMapping ("/update/setOwner")
     public ResponseEntity<FlatEntity> setOwner(
             Principal principal,
@@ -25,22 +25,22 @@ public class FlatController {
     ){
         return ResponseEntity.ok(flatService.setOwner(principal,flatId));
     }
-
-    @PutMapping("/update/removeOwner")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PutMapping("/update/{flatId}/removeOwner")
     public ResponseEntity<FlatEntity> removeOwner(
-            @RequestParam UUID flatId
+            @PathVariable UUID flatId
     ){
         return ResponseEntity.ok(flatService.removeOwner(flatId));
     }
 
-    @PreAuthorize("permitAll()")
-    @GetMapping("/get/accommodation/{id}")
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/get/{id}/accommodation")
     public ResponseEntity<List<FlatEntity>> getByAccommodationId(
             @PathVariable UUID id
     ){
         return ResponseEntity.ok(flatService.getAll(id));
     }
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/get/{id}")
     public ResponseEntity<FlatEntity> getFlat(
             @PathVariable UUID id
