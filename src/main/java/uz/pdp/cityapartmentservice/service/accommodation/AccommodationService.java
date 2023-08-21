@@ -143,11 +143,11 @@ public class AccommodationService {
         return accommodationRepository.save(accommodation);
     }
 
-    public AccommodationEntity updateCompany(UUID accommodationId,String companyName){
+    public AccommodationEntity updateCompany(UUID accommodationId,UUID companyId){
         AccommodationEntity accommodation = accommodationRepository.findById(accommodationId)
                 .orElseThrow(() -> new DataNotFound("Accommodation Not Found!"));
 
-        CompanyEntity company = companyRepository.findByName(companyName)
+        CompanyEntity company = companyRepository.findById(companyId)
                 .orElseThrow(() -> new DataNotFound("Company Not Found!"));
 
         accommodation.setCompany(company);
